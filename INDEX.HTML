@@ -1,83 +1,62 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delhi-Dehradun Economic Corridor</title>
-    <link rel="stylesheet" href="INDEX.CSS">
-</head>
-<body>
-    <nav class="navbar">
-        <div class="logo">D-D Expressway</div>
-        <ul class="nav-links">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#features">Key Facts</a></li>
-            <li><a href="#phases">Project Phases</a></li>
-            <li><a href="#calculator">Trip Planner</a></li>
-        </ul>
-    </nav>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <h1>Delhi to Dehradun in 2.5 Hours</h1>
-            <p>Experience the 210 km access-controlled Economic Corridor, featuring Asia's longest elevated wildlife corridor.</p>
-            <a href="#features" class="btn">Explore the Highway</a>
+    <title>DELHI TO DEHRADUN EXPRESSWAY</title>
+
+    <link rel="stylesheet" href="INDEX.css" />
+  </head>
+
+  <body>
+    <button class="mode" onclick="toggleMode()">🌙 Dark Mode</button>
+
+    <!-- Hero Section -->
+
+    <div class="hero">
+      <img src="image.png" alt="Expressway Highway" />
+
+
+      <div class="hero-text">
+        <h1>DELHI - DEHRADUN EXPRESSWAY</h1>
+
+ <b></b>
+        <p>PREMIUM AND FASTEST WAY TO FIND YOUR ROUTE</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Search Card -->
+
+      <div class="card">
+        <h2>🔍FIND THE BEST ROUTE</h2>
+
+        <div class="input-box">
+          <label> 📍 Source City </label>
+
+          <select id="source">
+            <option value="">Select Source</option>
+          </select>
         </div>
-    </section>
 
-    <section id="features" class="features">
-        <h2>Highway Highlights</h2>
-        <div class="cards">
-            <div class="card">
-                <h3>⏱️ Reduced Time</h3>
-                <p>Travel time drastically slashed from over 6 hours down to just 2.5 hours.</p>
-            </div>
-            <div class="card">
-                <h3>🛣️ 210 KM Stretch</h3>
-                <p>A 6-lane access-controlled expressway, designed for speeds up to 100 km/h.</p>
-            </div>
-            <div class="card">
-                <h3>🐘 Wildlife Corridor</h3>
-                <p>A 12 km elevated corridor over Rajaji National Park ensuring unhindered animal movement.</p>
-            </div>
-            <div class="card">
-                <h3>💰 ₹12,000 Cr Project</h3>
-                <p>A massive infrastructural milestone inaugurated by PM Modi on April 14, 2026.</p>
-            </div>
+
+        <div class="input-box">
+          <label> 🏁 Destination City </label>
+
+          <select id="destination">
+            <option value="">Select Destination</option>
+          </select>
         </div>
-    </section>
 
-    <section id="phases" class="phases">
-        <h2>Construction Phases</h2>
-        <div class="accordion">
-            <button class="accordion-btn">Phase 1: Akshardham to Baghpat</button>
-            <div class="panel"><p>A 32 km stretch starting from Delhi. This brownfield upgrade includes a massive 12-lane road for heavy urban traffic flow.</p></div>
+        <button onclick="findRoute()">Find Route 🚗</button>
+      </div>
 
-            <button class="accordion-btn">Phase 2: Baghpat to Saharanpur</button>
-            <div class="panel"><p>A 118 km completely greenfield section equipped with 7 interchanges and over 60 underpasses for smooth regional connectivity.</p></div>
+      <!-- Result -->
 
-            <button class="accordion-btn">Phase 3: Saharanpur to Ganeshpur</button>
-            <div class="panel"><p>A 40 km brownfield upgrade designed to seamlessly channel high-speed traffic toward the hilly terrain.</p></div>
-
-            <button class="accordion-btn">Phase 4: Ganeshpur to Dehradun</button>
-            <div class="panel"><p>A 20 km eco-sensitive zone featuring the 12 km elevated wildlife corridor, elephant underpasses, and the 340-metre Daat Kali tunnel.</p></div>
-        </div>
-    </section>
-
-    <section id="calculator" class="calculator">
-        <h2>Plan Your Trip</h2>
-        <p>Enter your departure time from Delhi to see exactly when you will roll into Dehradun!</p>
-        <div class="calc-box">
-            <input type="time" id="departure-time" required>
-            <button id="calc-btn" class="btn">Calculate Arrival</button>
-            <p id="result-text"></p>
-        </div>
-    </section>
-
-    <footer>
-        <p>&copy; 2026 Delhi-Dehradun Expressway Portal. Designed for educational purposes.</p>
-    </footer>
+      <div id="output"></div>
+    </div>
 
     <script src="INDEX.js"></script>
-</body>
+  </body>
 </html>

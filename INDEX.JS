@@ -1,75 +1,221 @@
-document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. Smooth Scrolling for Navigation
-    const navLinks = document.querySelectorAll('.nav-links a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const targetId = this.getAttribute('href').substring(1);
-            const targetSection = document.getElementById(targetId);
-            
-            window.scrollTo({
-                top: targetSection.offsetTop - 70, // Adjusting for the sticky navbar height
-                behavior: 'smooth'
-            });
-        });
-    });
+const routeData = [
+  {
+    city: "Akshardham (Delhi)",
+    distance: 0,
+    toll: 0,
+  },
 
-    // 2. Accordion Logic for Project Phases
-    const accordions = document.querySelectorAll('.accordion-btn');
-    accordions.forEach(acc => {
-        acc.addEventListener('click', function() {
-            // Toggle active styling
-            this.classList.toggle('active');
-            
-            // Toggle panel slide animation
-            const panel = this.nextElementSibling;
-            if (panel.style.maxHeight) {
-                panel.style.maxHeight = null; // Close it
-            } else {
-                panel.style.maxHeight = panel.scrollHeight + "px"; // Open it
-            }
-        });
-    });
+  {
+    city: "Baghpat",
+    distance: 35,
+    toll: 60,
+  },
 
-    // 3. Trip Planner (Time Calculator)
-    const calcBtn = document.getElementById('calc-btn');
-    const departureInput = document.getElementById('departure-time');
-    const resultText = document.getElementById('result-text');
+  {
+    city: "Baraut",
+    distance: 65,
+    toll: 120,
+  },
 
-    calcBtn.addEventListener('click', () => {
-        const depTime = departureInput.value;
-        
-        // Input validation
-        if (!depTime) {
-            resultText.style.color = '#e74c3c'; // Red for error
-            resultText.innerText = '⚠️ Please enter a valid departure time.';
-            return;
-        }
+  {
+    city: "Shamli",
+    distance: 120,
+    toll: 220,
+  },
 
-        // Split user input into hours and minutes
-        let [hours, minutes] = depTime.split(':').map(Number);
-        
-        // The expressway cuts travel time to exactly 2.5 hours (2 hrs 30 mins)
-        hours += 2;
-        minutes += 30;
+  {
+    city: "Saharanpur",
+    distance: 180,
+    toll: 350,
+  },
 
-        // Roll over minutes to hours if it exceeds 59
-        if (minutes >= 60) {
-            hours += 1;
-            minutes -= 60;
-        }
+  {
+    city: "Dehradun",
+    distance: 210,
+    toll: 450,
+  },
+];
 
-        // Keep hours strictly within a 24-hour cycle
-        hours = hours % 24;
+const source = document.getElementById("source");
 
-        // Format for AM/PM display
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        const displayHours = hours % 12 || 12; // 0 becomes 12 for midnight
-        const displayMinutes = minutes.toString().padStart(2, '0');
+const destination = document.getElementById("destination");
 
-        // Output final result
-        resultText.style.color = '#2e8b57'; // Back to green
-        resultText.innerText = `🚗 You will arrive in Dehradun around ${displayHours}:${displayMinutes} ${ampm}.`;
-    });
+
+routeData.forEach((place) => {
+  source.innerHTML += `
+
+<option value="${place.city}">
+${place.city}
+</option>
+
+`;
+
+  destination.innerHTML += `
+
+<option value="${place.city}">
+${place.city}
+</option>
+
+`;
 });
+
+// Swap Source Destination
+
+function swapRoute() {
+  let temp = source.value;
+
+  source.value = destination.value;
+
+  destination.value = temp;
+}
+
+function findRoute() {
+  let start = source.value;
+
+  let end = destination.value;
+
+  if (start == "" || end == "") {
+    alert("Please select both cities");
+
+    return;
+  }
+
+  let startIndex = routeData.findIndex((place) => place.city == start);
+
+  let endIndex = routeData.findIndex((place) => place.city == end);
+
+  let route = [];
+
+  if (startIndex < endIndex) {
+    for (let i = startIndex; i <= endIndex; i++) {
+      route.push(routeData[i]);
+    }
+  } else {
+    for (let i = startIndex; i >= endIndex; i--) {
+      route.push(routeData[i]);
+    }
+  }
+
+  let distance = Math.abs(route[route.length - 1].distance - route[0].distance);
+
+  let toll = Math.abs(route[route.length - 1].toll - route[0].toll);
+
+  let time = (distance / 60).toFixed(1);
+
+  displayResult(route, distance, time, toll);
+}
+
+function displayResult(route, distance, time, toll) {
+  let html = `
+
+
+<div class="result-box">
+
+
+<h2>
+📊 Route Summary
+</h2>
+
+
+
+<div class="summary-container">
+
+
+
+<div class="summary-card">
+
+<h3>
+📏 Distance
+</h3>
+
+<p>
+${distance} KM
+</p>
+
+</div>
+
+<div class="summary-card">
+
+<h3>
+⏱ Time
+</h3>
+
+<p>
+${time} Hours
+</p>
+
+</div>
+
+
+
+
+
+<div class="summary-card">
+
+<h3>
+🛣 Toll
+</h3>
+
+<p>
+₹${toll}
+</p>
+
+</div>
+
+
+
+</div>
+
+
+
+
+<h2>
+🚗 Route Details
+</h2>
+
+
+
+`;
+
+  route.forEach((place, index) => {
+    html += `
+
+<div class="city">
+
+📍 ${place.city}
+
+</div>
+
+`;
+
+    if (index !== route.length - 1) {
+      html += `
+
+<div class="road">
+⬇️
+</div>
+
+`;
+    }
+  });
+
+  html += `
+
+</div>
+
+`;
+
+  document.getElementById("output").innerHTML = html;
+}
+
+function toggleMode() {
+  document.body.classList.toggle("dark");
+
+  let btn = document.querySelector(".mode");
+
+  if (document.body.classList.contains("dark")) {
+    btn.innerHTML = "☀️ Light Mode";
+  } else {
+    btn.innerHTML = "🌙 Dark Mode";
+  }
+}
